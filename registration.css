@@ -1,0 +1,65 @@
+
+       
+     table{
+        border:1px solid black;
+        border-collapse:collapse;
+         padding:8px;
+     }
+     body{
+        background-color: blueviolet
+        
+     }
+     #div1{
+        background-color: beige;
+        float:left;
+        margin-right: 160px;
+        padding:10px;
+     }
+     #div2{
+        background-color:orange;
+        display:inline-block;
+        padding:10px;
+        
+     }
+    
+       
+      @media(width>100px) and (width<950px){
+        #div1{
+            margin-bottom:20px;
+            
+        }
+      }
+      @media(width>80px) and (width<500px){
+        h2{
+            font-size:10px;
+            padding:0px;
+            margin-bottom:20px;
+        }
+        #student_name,#student_id,#student_email_id {
+            width:10px;
+            font-size:2px;
+        }
+        #student_contact_no{
+            width:10px;
+            font-size:2px;
+        }
+        #div2{
+       
+        overflow-y:scroll; /*Enable vertical scrolling*/
+     }   
+    
+        h3{
+            font-size:5px;
+            padding:0px;
+        
+        }
+      
+      #registered_Students_Table,th{
+       font-size:5px;
+       padding:0px;
+      }
+    
+      
+     
+    }
+    
