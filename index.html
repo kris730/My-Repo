@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+  <div class="card bg-white p-6 rounded-lg shadow-lg w-full max-w-sm">
+    <div class="search mb-4 flex">
+      <input type="text" placeholder="Enter city name" spellcheck="false" class="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none">
+      <button class="bg-blue-500 p-2 rounded-r-lg hover:bg-blue-600"><img src="search.jpeg" alt="Search" class="w-6 h-6"></button>
+    </div>
+    <div class="error mb-4 hidden">
+      <p class="text-red-500">Invalid city name</p>
+    </div>
+    <div class="weather hidden">
+      <img src="raining.png" class="weather-icon w-20 mx-auto mb-4">
+      <h1 class="temp text-4xl font-bold mb-2">22°C</h1>
+      <h2 class="city text-2xl mb-4">New York</h2>
+      <div class="details flex justify-between">
+        <div class="col flex items-center">
+          <img src="hot.png" alt="Humidity" class="w-6 h-6 mr-2">
+          <div>
+            <p class="humidity text-lg">50%</p>
+            <p class="text-sm text-gray-500">Humidity</p>
+          </div>
+        </div>
+        <div class="col flex items-center">
+          <img src="wind.png" alt="Wind Speed" class="w-6 h-6 mr-2">
+          <div>
+            <p class="wind text-lg">15km/h</p>
+            <p class="text-sm text-gray-500">Wind Speed</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+  const apiKey = "e86649969bf34fceb7a210526250102";
+  const apiUrl = "https://api.weatherapi.com/v1/current.json?key=";
+
+  const searchBox = document.querySelector(".search input");
+  const searchBtn = document.querySelector(".search button");
+  const weatherIcon = document.querySelector(".weather-icon");
+
+  async function checkWeather(city) {
+    const response = await fetch(apiUrl + apiKey + "&q=" + city);
+
+    try {
+      const response = await fetch(apiUrl + apiKey + "&q=" + city);
+
+      if (!response.ok) {
+        throw new Error("Invalid API key or city name");
+      }
+
+      const data = await response.json();
+      console.log(data);
+      document.querySelector(".city").innerHTML = data.location.name;
+      document.querySelector(".temp").innerHTML = Math.round(data.current.temp_c) + "°C";
+      document.querySelector(".humidity").innerHTML = data.current.humidity + "%";
+      document.querySelector(".wind").innerHTML = data.current.wind_kph + "km/h";
+
+      if (data.current.condition.text.includes("Cloudy")) {
+        weatherIcon.src = "foog.png";
+      } else if (data.current.condition.text.includes("Sunny")) {
+        weatherIcon.src = "su.png";
+      } else if (data.current.condition.text.includes("Rain")) {
+        weatherIcon.src = "raining.png";
+      } else if (data.current.condition.text.includes("Drizzle")) {
+        weatherIcon.src = "rainy-day.png";
+      } else if (data.current.condition.text.includes("Mist")) {
+        weatherIcon.src = "foog.png";
+      }
+
+      document.querySelector(".weather").style.display = "block";
+      document.querySelector(".error").style.display = "none";
+    }
+    catch(error){
+      console.error("Error fetching weather data:", error);
+      document.querySelector(".error").innerHTML = error.message;
+      document.querySelector(".error").style.display = "block";
+      document.querySelector(".weather").style.display = "none";
+    } 
+    }
+  
+
+  searchBtn.addEventListener("click", () => {
+    checkWeather(searchBox.value);
+  });
+
+  checkWeather("New York"); // Initial check for New York
+</script>
+</body>
+</html>
+
